@@ -44,6 +44,14 @@ stock Float:GetModelColRadius(const modelid)
 		return MODELS_gColRadius[modelid];
 }
 
+stock SetDynamicObjectData(STREAMER_TAG_OBJECT:objectid, Float:stream_distance, Float:draw_distance, priority)
+{
+	Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, stream_distance);
+	Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, draw_distance);
+	Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, priority);
+	return true;
+}
+
 stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
 {
 	if(!IsValidDynamicObject(objectid))
@@ -57,26 +65,17 @@ stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
 	#if CURRENT_METHOD
 		new Float:od_spherecol = GetModelColRadius(od_modelid);
 		if(od_spherecol <= 0.0)
-		{
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, 275.0);
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, 275.0);
-			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, 0);
-		}
+			SetDynamicObjectData(objectid, 275.0, 275.0, 0);
 		else if(od_spherecol <= 11.25)
 		{
 			od_DrawDistance = od_spherecol * 75;
 			if(od_DrawDistance < 210.0)
 				od_DrawDistance += 100.0;
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, od_DrawDistance);
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, od_DrawDistance);
-			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_spherecol), floatround_round));
+			SetDynamicObjectData(objectid, od_DrawDistance, od_DrawDistance, floatround((od_spherecol), floatround_round));
 		}
 		else
-		{
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, 1000.0);
-			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, 1000.0);
-			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_spherecol), floatround_round));
-		}
+			SetDynamicObjectData(objectid, 1000.0, 1000.0, floatround((od_spherecol), floatround_round));
+
 	#else
 		new 
 			Float:od_priority,
