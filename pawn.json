@@ -1,0 +1,12 @@
+{
+	"user": "algorhitmically",
+	"repo": "optidraw",
+	"dependencies": [
+		"samp-incognito/samp-streamer-plugin",
+		"sampctl/samp-stdlib"
+		"Crayder/Model-Sizes-Plus"
+	],
+	"contributors": [
+		"algorhitmically",
+	]
+}

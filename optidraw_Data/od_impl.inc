@@ -1,0 +1,107 @@
+/*
+ * THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
+ * EVENT SHALL THE AUTHORS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA,
+ * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+Contributors:
+	- algorhitmically
+
+Thanks to:
+	- Incognito - streamer plugin.
+	- Abagail and Crayder - modelsizes include.
+
+Required plugins:
+	- Streamer
+*/
+
+/*
+	 ______  __       __  _______   __       
+	/      |/  \     /  |/       \ /  |      
+	$$$$$$/ $$  \   /$$ |$$$$$$$  |$$ |      
+	  $$ |  $$$  \ /$$$ |$$ |__$$ |$$ |      
+	  $$ |  $$$$  /$$$$ |$$    $$/ $$ |      
+	  $$ |  $$ $$ $$/$$ |$$$$$$$/  $$ |      
+	 _$$ |_ $$ |$$$/ $$ |$$ |      $$ |_____ 
+	/ $$   |$$ | $/  $$ |$$ |      $$       |
+	$$$$$$/ $$/      $$/ $$/       $$$$$$$$/ 
+
+*/
+
+stock Float:GetModelColRadius(const modelid)
+{
+	if(modelid < 0 || modelid > 19999)
+		return 0.0;
+	else
+		return MODELS_gColRadius[modelid];
+}
+
+stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
+{
+	if(!IsValidDynamicObject(objectid))
+		return false;
+
+	new 
+		od_modelid = -1,
+		Float:od_DrawDistance;
+
+	od_modelid = Streamer_GetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID);
+	#if CURRENT_METHOD
+		new Float:od_spherecol = GetModelColRadius(od_modelid);
+		if(od_spherecol <= 0.0)
+		{
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, 275.0);
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, 275.0);
+			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, 0);
+		}
+		else if(od_spherecol <= 11.25)
+		{
+			od_DrawDistance = od_spherecol * 75;
+			if(od_DrawDistance < 210.0)
+				od_DrawDistance += 100.0;
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, od_DrawDistance);
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, od_DrawDistance);
+			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_spherecol), floatround_round));
+		}
+		else
+		{
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, 1000.0);
+			Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, 1000.0);
+			Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_spherecol), floatround_round));
+		}
+	#else
+		new 
+			Float:od_priority,
+			Float:od_ModelSize[3];
+		
+		if(GetModelColDimensions(od_modelid, od_ModelSize[0], od_ModelSize[1], od_ModelSize[2]))
+		{
+			if(od_ModelSize[0] > 40.0 && od_ModelSize[1] > 40.0 && od_ModelSize[2] < 12.0)
+				Streamer_ToggleItemStatic(STREAMER_TYPE_OBJECT, objectid, 1);
+			else
+			{
+				od_priority = (od_ModelSize[0] * od_ModelSize[1] + od_ModelSize[1] * od_ModelSize[2] + od_ModelSize[2] * od_ModelSize[0]);
+				Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_priority/450), floatround_round));
+				if(od_priority <= 100.0) od_DrawDistance = 300.0;
+				else if(od_priority <= 550.0) od_DrawDistance = 365.0;
+				else if(od_priority <= 750.0) od_DrawDistance = 435.0;
+				else if(od_priority <= 1000.0) od_DrawDistance = 575.0;
+				else if(od_priority <= 3000.0) od_DrawDistance = 700.0;
+				else if(od_priority <= 5000.0) od_DrawDistance = 850.0;
+				else if(od_priority <= 8000.0) od_DrawDistance = 1000.0;
+				else if(od_priority > 8000.0) od_DrawDistance = 1300.0;
+				Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, od_DrawDistance);
+				Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, od_DrawDistance - 25.0);
+			}
+		}
+	#endif
+	return true;
+}
