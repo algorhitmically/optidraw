@@ -6,22 +6,26 @@ This include will help you with map optimization.
 
 • [Streamer](https://github.com/samp-incognito/samp-streamer-plugin)<br />
 • [Model-Sizes-Plus](https://github.com/Crayder/Model-Sizes-Plus)<br />
+  OR
+• [Model-Sizes-SQL](https://github.com/algorhitmically/modelsizes-sql)<br />
 
 ### Methods
 
-These are optimization methods that you can define before including optidraw:<br />
+These are optimization methods that you need to define before including optidraw:<br />
 
 • METHOD_BOX<br />
+  OR
 • METHOD_SPHERE<br />
 
 #### Use
 
-#define CURRENT_METHOD your_method<br />
+#define OD_METHOD your_method<br />
 
 ### Tips
 
-• Choose optimization method, but you don't have to if you want to use box method which is defined by default.<br />
+• Choose optimization method. Example: #define OD_METHOD METHOD_BOX<br />
 • Include optidraw below streamer!<br />
 • You can disable startup messages with: #define OD_DISABLE_STARTUP_MESSAGE<br />
+• You can disable static objects with: #define OD_DISABLE_STATIC_OBJECTS
 
 
