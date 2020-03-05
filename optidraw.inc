@@ -17,7 +17,7 @@ Contributors:
 
 Thanks to:
 	- Incognito - streamer plugin.
-	- Abagail and Crayder - od_ModelSizes include.
+	- Abagail and Crayder - modelsizes include.
 
 Required plugins:
 	- Streamer

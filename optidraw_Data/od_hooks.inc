@@ -47,9 +47,9 @@ public OnGameModeInit()
 	Streamer_SetTickRate(25);
 	#if !defined OD_DISABLE_STARTUP_MESSAGE
 		print("==================================================");
-		print("\t* OptiDraw v1.0 loaded successfully.");
-		print("\t* By algorhitmically - [26.02.2020.]");
-		#if CURRENT_METHOD
+		print("\t* OptiDraw v1.0.1 loaded successfully.");
+		print("\t* By algorhitmically - [03.05.2020.]");
+		#if OD_METHOD
 		print("\t* Current method: SPHERE");
 		#else
 		print("\t* Current method: BOX");

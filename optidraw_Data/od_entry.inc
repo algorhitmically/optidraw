@@ -35,14 +35,14 @@ Required plugins:
 	$$$$$$$$/ $$/   $$/    $$/    $$/   $$/     $$/
 
 */
-#define _optidraw_included
-
 #define METHOD_BOX (0)
 #define METHOD_SPHERE (1)
 
-#if !defined CURRENT_METHOD
-	#define CURRENT_METHOD METHOD_BOX
+#if !defined OD_METHOD
+	#error Optidraw: Please define a method using OD_METHOD! Available methods are: METHOD_BOX, METHOD_SPHERE
 #endif
+
+#assert OD_METHOD >= 0 && OD_METHOD < 2
 
 #include <a_samp>
 
@@ -50,7 +50,7 @@ Required plugins:
 #tryinclude "modelsizes"
 #tryinclude <modelsizes>
 
-#if !defined GetModelColDimensions
+#if !defined GetModelColDimensions || !defined GetColSphereRadius
 	#error Optidraw: modelsizes doesn't have required functions or it's not loaded.
 #endif
 
@@ -66,3 +66,5 @@ Required plugins:
 
 #include "od_impl"
 #include "od_hooks"
+
+#define _optidraw_included

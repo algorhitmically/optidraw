@@ -36,14 +36,6 @@ Required plugins:
 
 */
 
-stock Float:GetModelColRadius(const modelid)
-{
-	if(modelid < 0 || modelid > 19999)
-		return 0.0;
-	else
-		return MODELS_gColRadius[modelid];
-}
-
 stock SetDynamicObjectData(STREAMER_TAG_OBJECT:objectid, Float:stream_distance, Float:draw_distance, priority)
 {
 	Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, stream_distance);
@@ -62,8 +54,8 @@ stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
 		Float:od_DrawDistance;
 
 	od_modelid = Streamer_GetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID);
-	#if CURRENT_METHOD
-		new Float:od_spherecol = GetModelColRadius(od_modelid);
+	#if OD_METHOD
+		new Float:od_spherecol = GetColSphereRadius(od_modelid);
 		if(od_spherecol <= 0.0)
 			SetDynamicObjectData(objectid, 275.0, 275.0, 0);
 		else if(od_spherecol <= 11.25)
@@ -84,11 +76,16 @@ stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
 		if(GetModelColDimensions(od_modelid, od_ModelSize[0], od_ModelSize[1], od_ModelSize[2]))
 		{
 			if(od_ModelSize[0] > 40.0 && od_ModelSize[1] > 40.0 && od_ModelSize[2] < 12.0)
-				Streamer_ToggleItemStatic(STREAMER_TYPE_OBJECT, objectid, 1);
+			{
+				#if !defined OD_DISABLE_STATIC_OBJECTS
+					Streamer_ToggleItemStatic(STREAMER_TYPE_OBJECT, objectid, 1);
+				#else
+					SetDynamicObjectData(objectid, 400.0, 400.0, 5000);
+				#endif
+			}
 			else
 			{
 				od_priority = (od_ModelSize[0] * od_ModelSize[1] + od_ModelSize[1] * od_ModelSize[2] + od_ModelSize[2] * od_ModelSize[0]);
-				Streamer_SetIntData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_PRIORITY, floatround((od_priority/450), floatround_round));
 				if(od_priority <= 100.0) od_DrawDistance = 300.0;
 				else if(od_priority <= 550.0) od_DrawDistance = 365.0;
 				else if(od_priority <= 750.0) od_DrawDistance = 435.0;
@@ -97,10 +94,11 @@ stock OptimizeDynamicObject(STREAMER_TAG_OBJECT:objectid)
 				else if(od_priority <= 5000.0) od_DrawDistance = 850.0;
 				else if(od_priority <= 8000.0) od_DrawDistance = 1000.0;
 				else if(od_priority > 8000.0) od_DrawDistance = 1300.0;
-				Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_DRAW_DISTANCE, od_DrawDistance);
-				Streamer_SetFloatData(STREAMER_TYPE_OBJECT, objectid, E_STREAMER_STREAM_DISTANCE, od_DrawDistance - 25.0);
+				SetDynamicObjectData(objectid, od_DrawDistance, od_DrawDistance - 25, floatround((od_priority/450), floatround_round));
 			}
 		}
+		else
+			SetDynamicObjectData(objectid, 275.0, 275.0, 0);
 	#endif
 	return true;
 }
