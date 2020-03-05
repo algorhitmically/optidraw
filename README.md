@@ -5,9 +5,7 @@ This include will help you with map optimization.
 ### Required dependencies
 
 • [Streamer](https://github.com/samp-incognito/samp-streamer-plugin)<br />
-• [Model-Sizes-Plus](https://github.com/Crayder/Model-Sizes-Plus)<br />
-  OR<br />
-• [Model-Sizes-SQL](https://github.com/algorhitmically/modelsizes-sql)<br />
+• [Model-Sizes-Plus](https://github.com/Crayder/Model-Sizes-Plus)<br /> OR [Model-Sizes-SQL](https://github.com/algorhitmically/modelsizes-sql)<br />
 
 ### Methods
 
