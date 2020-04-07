@@ -43,7 +43,7 @@ public OnGameModeInit()
 	#endif
 	Streamer_ToggleChunkStream(true);
 	Streamer_SetChunkSize(STREAMER_TYPE_OBJECT, 250);
-	Streamer_VisibleItems(STREAMER_TYPE_OBJECT, 2500);
+	Streamer_VisibleItems(STREAMER_TYPE_OBJECT, 975);
 	Streamer_SetTickRate(25);
 	#if !defined OD_DISABLE_STARTUP_MESSAGE
 		print("==================================================");
