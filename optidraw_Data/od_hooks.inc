@@ -49,11 +49,7 @@ public OnGameModeInit()
 		print("==================================================");
 		print("\t* OptiDraw v1.0.1 loaded successfully.");
 		print("\t* By algorhitmically - [03.05.2020.]");
-		#if OD_METHOD
-		print("\t* Current method: SPHERE");
-		#else
-		print("\t* Current method: BOX");
-		#endif
+		printf("\t* Current method: %s", OD_METHOD ? "SPHERE" : "BOX");
 		print("==================================================");
 	#endif
 	#if defined od_OnGameModeInit
