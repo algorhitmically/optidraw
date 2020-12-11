@@ -36,6 +36,13 @@ Required plugins:
 	 
 */
 
+// built-in include guard removal
+// just in case the user has a local dependency with the same file name
+#if defined _inc_optidraw
+    #undef _inc_optidraw
+#endif
+// custom include-guard to ensure we don't duplicate
+
 #if defined _optidraw_included
 	#endinput
 #endif
