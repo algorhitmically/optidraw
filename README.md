@@ -34,7 +34,7 @@ These are optimization methods that you can choose to define before including op
 ### Tips
 
 • Choose optimization method. Example: #define OD_METHOD METHOD_BOX<br />
-• Include optidraw below streamer!<br />
+• Streamer and ModelSizes will be included automatically!<br />
 • You can disable startup messages with: `#define OD_DISABLE_STARTUP_MESSAGE`<br />
 • You can disable static objects with: `#define OD_DISABLE_STATIC_OBJECTS`
 
