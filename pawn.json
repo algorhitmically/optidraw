@@ -1,12 +1,19 @@
 {
 	"user": "algorhitmically",
 	"repo": "optidraw",
-	"dependencies": [
-		"samp-incognito/samp-streamer-plugin",
-		"sampctl/samp-stdlib"
-		"Crayder/Model-Sizes-Plus"
-	],
 	"contributors": [
 		"algorhitmically",
-	]
+		"Mergevos"
+	],
+	"entry": "test.pwn",
+	"output": "test.amx",
+	"dependencies": [
+		"samp-incognito/samp-streamer-plugin:v2.9.4",
+		"sampctl/samp-stdlib",
+		"Crayder/Model-Sizes-Plus",
+		"pawn-lang/YSI-Includes@5.x"
+	],
+	"runtime": {
+		"mode": "y_testing"
+	}
 }

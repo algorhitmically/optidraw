@@ -14,6 +14,7 @@
 /*
 Contributors:
 	- algorhitmically
+	- Mergevos
 
 Thanks to:
 	- Incognito - streamer plugin.
@@ -61,7 +62,7 @@ Required plugins:
 #endif
 
 #if !defined _streamer_included
-	#error Optidraw: Cannot load streamer.
+	#error Optidraw: Couldn't load streamer.
 #endif
 
 #include "od_impl"
