@@ -14,6 +14,7 @@
 /*
 Contributors:
 	- algorhitmically
+	- Mergevos
 
 Thanks to:
 	- Incognito - streamer plugin.
@@ -46,10 +47,10 @@ hook OnScriptInit()
 	Streamer_SetTickRate(25);
 	#if !defined OD_DISABLE_STARTUP_MESSAGE
 		print("==================================================");
-		print("\t* OptiDraw v1.0.1 loaded successfully.");
-		print("\t* By algorhitmically - [03.05.2020.]");
+		print("\t* OptiDraw loaded successfully * (12.12.2020.)");
 		#if OD_METHOD
 		print("\t* Current method: SPHERE");
+		#else
 		print("\t* Current method: BOX");
 		#endif
 		print("==================================================");
